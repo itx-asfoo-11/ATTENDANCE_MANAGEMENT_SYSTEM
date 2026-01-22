@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Search Students</h2>
+<form method="post" class="row g-3">
+    <div class="col-md-6">
+        <input class="form-control" name="keyword" placeholder="Enter name or roll no">
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+{% if result %}
+<div class="mt-3">
+    {{ result|safe }}
+</div>
+{% endif %}
+{% endblock %}

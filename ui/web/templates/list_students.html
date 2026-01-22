@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">Students List</h2>
+
+<form method="POST" action="{{ url_for('search_student_page') }}" class="mb-3">
+    <input type="text" name="keyword" class="form-control" placeholder="Search by Name or Roll No">
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Class</th>
+            <th>Section</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in students %}
+        <tr>
+            <td>{{ s[0] }}</td>
+            <td>{{ s[1] }}</td>
+            <td>{{ s[2] }}</td>
+            <td>{{ s[3] }}</td>
+            <td>{{ s[4] }}</td>
+            <td>
+                <!-- View Profile Button -->
+                <a href="{{ url_for('student_profile', student_id=s[0]) }}" 
+                   class="btn btn-sm btn-primary">
+                   View Profile
+                </a>
+
+                <!-- Delete Button -->
+                <a href="{{ url_for('delete_student', student_id=s[0]) }}" 
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this student?')">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+
+{% endblock %}

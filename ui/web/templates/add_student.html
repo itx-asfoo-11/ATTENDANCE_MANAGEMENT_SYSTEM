@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add Student</h2>
+
+<div class="card">
+<form method="post">
+    <input name="id" placeholder="Student ID">
+    <input name="name" placeholder="Name">
+    <input name="roll" placeholder="Roll No">
+    <input name="class" placeholder="Class">
+    <input name="section" placeholder="Section">
+    <button type="submit">Add Student</button>
+</form>
+
+<p style="color:#69f0ae;">{{ message }}</p>
+</div>
+
+<h3>Existing Students</h3>
+
+<table class="table">
+<tr>
+    <th>ID</th><th>Name</th><th>Roll</th><th>Class</th><th>Section</th><th>Action</th>
+</tr>
+{% for s in students %}
+<tr>
+    <td>{{ s[0] }}</td>
+    <td>{{ s[1] }}</td>
+    <td>{{ s[2] }}</td>
+    <td>{{ s[3] }}</td>
+    <td>{{ s[4] }}</td>
+    <td><a href="{{ url_for('delete_student', student_id=s[0]) }}">❌ Delete</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

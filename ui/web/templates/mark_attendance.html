@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card-pro fade-in" style="max-width:500px; margin:auto;">
+
+    <h3 class="mb-4 text-center">Mark Attendance</h3>
+
+    <!-- 🔔 Message -->
+    {% if message %}
+        <div class="alert alert-info text-center">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Enter Student ID</label>
+            <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control">
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+            </select>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-gradient btn-lg">
+                ✅ Mark Attendance
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

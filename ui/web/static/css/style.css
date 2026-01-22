@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:linear-gradient(120deg,#e0f7fa,#ffffff);
+}
+
+body.dark{
+  background:#121212;
+  color:white;
+}
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:#111827;
+  color:white;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.nav-links a{
+  margin:0 10px;
+  color:white;
+  text-decoration:none;
+}
+
+.nav-links a:hover{
+  text-decoration:underline;
+}
+
+.nav-right{
+  display:flex;
+  gap:10px;
+}
+
+.search-box{
+  padding:6px 10px;
+  border-radius:20px;
+  border:none;
+}
+
+.container{
+  padding:30px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 10px 20px rgba(0,0,0,.1);
+  margin-bottom:20px;
+}
+
+body.dark .card{
+  background:#1f2933;
+}
+
+input,select,button{
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid #ddd;
+}
+
+.badge-present{
+  color:white;
+  background:#16a34a;
+  padding:5px 10px;
+  border-radius:20px;
+}
+
+.badge-absent{
+  color:white;
+  background:#dc2626;
+  padding:5px 10px;
+  border-radius:20px;
+}

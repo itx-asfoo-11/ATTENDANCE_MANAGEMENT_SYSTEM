@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Attendance Records</h2>
+
+<table class="table">
+ <tbody>
+    {% for r in records %}
+    <tr>
+        <td>{{ r[0] }}</td>   <!-- ID -->
+        <td>{{ r[1] }}</td>   <!-- Name -->
+        <td>{{ r[2] }}</td>   <!-- Roll -->
+        <td>{{ r[3] }}</td>   <!-- Date -->
+        <td>
+            {% if r[4].lower() == 'present' %}
+                <span class="badge bg-success">Present</span>
+            {% else %}
+                <span class="badge bg-danger">Absent</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

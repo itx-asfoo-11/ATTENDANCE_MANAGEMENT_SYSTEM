@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card-pro fade-in">
+
+    <!-- Student Info -->
+    <h2>{{ student[1] }} (Roll: {{ student[2] }})</h2>
+    <p><b>Class:</b> {{ student[3] }} | <b>Section:</b> {{ student[4] }}</p>
+
+    <!-- Pie Chart -->
+    <h4 class="mt-4 text-center">Attendance Summary</h4>
+
+    <div style="max-width:350px; margin:30px auto;">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+    <!-- Attendance History -->
+    <h4 class="mt-5">Attendance History</h4>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>
+                    {% if record[1].lower() == 'present' %}
+                        <span class="badge bg-success">Present</span>
+                    {% else %}
+                        <span class="badge bg-danger">Absent</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('list_students_page') }}" class="btn btn-secondary mt-3">
+        Back to Students
+    </a>
+
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const presentCount = {{ present_count }};
+    const absentCount  = {{ absent_count }};
+
+    console.log("Present:", presentCount, "Absent:", absentCount);  // DEBUG
+
+    const canvas = document.getElementById('attendanceChart');
+
+    if (!canvas) {
+        console.error("Canvas not found");
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Present', 'Absent'],
+            datasets: [{
+                data: [presentCount, absentCount],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+});
+</script>
+
+{% endblock %}

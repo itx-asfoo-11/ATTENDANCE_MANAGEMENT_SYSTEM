@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Branding Header -->
+<div class="d-flex align-items-center justify-content-center mb-4">
+    <!-- School Logo -->
+    <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" style="height:60px; margin-right:15px;">
+    
+    <!-- Full School Name -->
+    <h2 style="font-weight:600; color: var(--text); margin:0;">
+        PROMISING CHILDREN ACADEMY
+    </h2>
+</div>
+
+
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card-pro text-center fade-in">
+            <h5>Total Students</h5>
+            <h2 class="text-primary">{{ total_students }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-pro text-center fade-in" style="animation-delay: 0.1s;">
+            <h5>Today Present</h5>
+            <h2 class="text-success">{{ today_present }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-pro text-center fade-in" style="animation-delay: 0.2s;">
+            <h5>Today Absent</h5>
+            <h2 class="text-danger">{{ today_absent }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-pro text-center fade-in" style="animation-delay: 0.3s;">
+            <h5>Attendance %</h5>
+            <h2 class="text-accent">{{ attendance_percentage }}%</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Action Buttons -->
+<div class="row g-3">
+    <div class="col-md-3"><a href="{{ url_for('add_student_page') }}" class="btn btn-gradient w-100">Add Student</a></div>
+    <div class="col-md-3"><a href="{{ url_for('list_students_page') }}" class="btn btn-gradient w-100">List Students</a></div>
+    <div class="col-md-3"><a href="{{ url_for('mark_attendance_page') }}" class="btn btn-gradient w-100">Mark Attendance</a></div>
+    <div class="col-md-3"><a href="{{ url_for('view_attendance_page') }}" class="btn btn-gradient w-100">View Attendance</a></div>
+</div>
+
+{% endblock %}
