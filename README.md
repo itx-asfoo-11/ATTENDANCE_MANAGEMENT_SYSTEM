@@ -9,9 +9,6 @@ A comprehensive **Attendance Management System** designed to efficiently manage 
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ---
@@ -60,3 +57,14 @@ Follow these steps to set up the project locally:
 
 4. Navigate through the menu options using the keyboard or program interface.
 5. Perform operations as needed; all changes will be saved in the database automatically.
+
+## Contact
+
+If you have any questions, suggestions, or want to report an issue, feel free to reach out:
+
+- **Developer:** Asfiya Asim  
+- **GitHub:** [itx-asfoo-11](https://github.com/itx-asfoo-11)  
+- **Email:** asfiyaasim820@gmail.com
+
+You can also connect via GitHub issues for reporting bugs or requesting new features.  
+I’m happy to help and collaborate on improving this project!
