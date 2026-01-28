@@ -42,3 +42,21 @@ Follow these steps to set up the project locally:
    ```bash
    git clone https://github.com/itx-asfoo-11/ATTENDANCE_MANAGEMENT_SYSTEM.git
    cd ATTENDANCE_MANAGEMENT_SYSTEM
+
+---
+## Usage
+
+1. Run the application.
+2. Log in using **Admin credentials**:  
+   - **Username:** admin  
+   - **Password:** admin123
+3. After login, you can perform the following actions:
+
+   - **Add Student:** Add new student details to the system.
+   - **Delete Student:** Remove existing student records from the system.
+   - **View Student Profile:** Check individual student information and attendance records.
+   - **View Total Students:** See a list of all students in the system.
+   - **Check Attendance Records:** View attendance history for each student.
+
+4. Navigate through the menu options using the keyboard or program interface.
+5. Perform operations as needed; all changes will be saved in the database automatically.
