@@ -1,40 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="card-pro fade-in" style="max-width:500px; margin:auto;">
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
 
-    <h3 class="mb-4 text-center">Mark Attendance</h3>
+        <div class="card-pro fade-in">
+            <div class="card-body p-4 p-md-5 text-center">
 
-    <!-- 🔔 Message -->
-    {% if message %}
-        <div class="alert alert-info text-center">
-            {{ message }}
+                <h4 class="fw-semibold mb-4">Mark Daily Attendance</h4>
+                <p class="text-muted mb-4">Quickly record student attendance for today</p>
+
+                {% if message %}
+                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                <form method="POST" class="mt-4">
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Student ID</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                            <input type="text" name="student_id" class="form-control" 
+                                   placeholder="Enter Student ID (e.g. S2025001)" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Attendance Status</label>
+                        <select name="status" class="form-select form-select-lg">
+                            <option value="Present" selected>Present</option>
+                            <option value="Absent">Absent</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid mt-5">
+                        <button type="submit" class="btn btn-gradient btn-lg py-3">
+                            <i class="bi bi-check-circle-fill me-2 fs-5"></i> Mark Attendance
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-5 pt-4 border-top">
+                    <small class="text-muted">
+                        Tip: You can also mark attendance in bulk from the dedicated module (coming soon)
+                    </small>
+                </div>
+
+            </div>
         </div>
-    {% endif %}
 
-    <form method="POST">
-
-        <div class="mb-3">
-            <label class="form-label">Enter Student ID</label>
-            <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID">
+        <div class="text-center mt-4">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+            </a>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-control">
-                <option value="Present">Present</option>
-                <option value="Absent">Absent</option>
-            </select>
-        </div>
-
-        <div class="d-grid mt-4">
-            <button type="submit" class="btn btn-gradient btn-lg">
-                ✅ Mark Attendance
-            </button>
-        </div>
-
-    </form>
-
+    </div>
 </div>
 
 {% endblock %}

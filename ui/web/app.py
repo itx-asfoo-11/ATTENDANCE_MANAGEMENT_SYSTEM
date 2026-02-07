@@ -5,11 +5,16 @@ from app.services.attendance_service import mark_attendance, get_attendance
 from datetime import date
 from app.database.connection import get_connection
 from app.services.attendance_service import clean_duplicate_attendance
+from datetime import datetime
 
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # Session ke liye zaruri
 
+# Add this after app = Flask(__name__)
+@app.template_filter('current_year')
+def current_year(s):
+    return datetime.now().year
 # ---------------- LOGIN PAGE ----------------
 @app.route("/", methods=["GET", "POST"])
 def login_page():

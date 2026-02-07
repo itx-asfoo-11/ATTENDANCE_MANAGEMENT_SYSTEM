@@ -1,92 +1,165 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="card-pro fade-in">
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
 
-    <!-- Student Info -->
-    <h2>{{ student[1] }} (Roll: {{ student[2] }})</h2>
-    <p><b>Class:</b> {{ student[3] }} | <b>Section:</b> {{ student[4] }}</p>
+        <div class="card-pro mb-4 fade-in">
+            <div class="card-body p-4 p-md-5">
 
-    <!-- Pie Chart -->
-    <h4 class="mt-4 text-center">Attendance Summary</h4>
+                <!-- Student Header -->
+                <div class="text-center mb-5">
+                    <div class="avatar-circle mx-auto mb-3" 
+                         style="width:90px; height:90px; background: var(--primary-soft); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.2rem; color:var(--primary); font-weight:600;">
+                        {{ student[1]|first|upper }}
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ student[1] }}</h3>
+                    <p class="text-muted mb-1">Roll No: <strong>{{ student[2] }}</strong></p>
+                    <p class="text-muted mb-0">
+                        Class <strong>{{ student[3] }}</strong> • Section <strong>{{ student[4] }}</strong>
+                    </p>
+                </div>
 
-    <div style="max-width:350px; margin:30px auto;">
-        <canvas id="attendanceChart"></canvas>
+                <!-- Attendance Summary - Pie Chart -->
+                <h5 class="text-center fw-semibold mb-4">Attendance Summary (Overall)</h5>
+
+                <div class="row justify-content-center mb-5">
+                    <div class="col-10 col-sm-9 col-md-8 col-lg-7">
+                        <div class="card-pro p-4 text-center" style="background: transparent; border: none; box-shadow: none;">
+                            <canvas id="attendanceChart" style="max-height: 320px;"></canvas>
+                        </div>
+
+                        <!-- Legend (optional but improves readability) -->
+                        <div class="d-flex justify-content-center gap-4 mt-3">
+                            <div class="d-flex align-items-center">
+                                <span class="legend-dot me-2" style="background:#10b981; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+                                <span>Present: <strong>{{ present_count }}</strong></span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="legend-dot me-2" style="background:#ef4444; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+                                <span>Absent: <strong>{{ absent_count }}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance History -->
+                <h5 class="fw-semibold mb-3">Attendance History</h5>
+
+                {% if records %}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in records %}
+                                <tr>
+                                    <td>{{ record[0] }}</td>
+                                    <td>
+                                        {% if record[1]|lower == 'present' %}
+                                            <span class="badge bg-success px-3 py-2">Present</span>
+                                        {% else %}
+                                            <span class="badge bg-danger px-3 py-2">Absent</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info text-center py-4">
+                        No attendance records found yet.
+                    </div>
+                {% endif %}
+
+                <!-- Back Button -->
+                <div class="text-center mt-5">
+                    <a href="{{ url_for('list_students_page') }}" class="btn btn-outline-secondary px-4 py-2">
+                        <i class="bi bi-arrow-left me-2"></i> Back to Students List
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
     </div>
-
-    <!-- Attendance History -->
-    <h4 class="mt-5">Attendance History</h4>
-
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records %}
-            <tr>
-                <td>{{ record[0] }}</td>
-                <td>
-                    {% if record[1].lower() == 'present' %}
-                        <span class="badge bg-success">Present</span>
-                    {% else %}
-                        <span class="badge bg-danger">Absent</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ url_for('list_students_page') }}" class="btn btn-secondary mt-3">
-        Back to Students
-    </a>
-
 </div>
 
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    const present = {{ present_count | default(0) }};
+    const absent  = {{ absent_count  | default(0) }};
 
-    const presentCount = {{ present_count }};
-    const absentCount  = {{ absent_count }};
-
-    console.log("Present:", presentCount, "Absent:", absentCount);  // DEBUG
-
-    const canvas = document.getElementById('attendanceChart');
-
-    if (!canvas) {
-        console.error("Canvas not found");
+    // Prevent chart creation if no data
+    if (present === 0 && absent === 0) {
+        document.getElementById('attendanceChart').outerHTML = 
+            '<div class="text-center py-5 text-muted">No attendance data available yet</div>';
         return;
     }
 
-    const ctx = canvas.getContext('2d');
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
 
     new Chart(ctx, {
         type: 'pie',
         data: {
             labels: ['Present', 'Absent'],
             datasets: [{
-                data: [presentCount, absentCount],
-                backgroundColor: ['#22c55e', '#ef4444'],
-                borderWidth: 2
+                data: [present, absent],
+                backgroundColor: [
+                    '#10b981',   // emerald green
+                    '#ef4444'    // red-500
+                ],
+                borderColor: [
+                    'rgba(255, 255, 255, 0.9)',
+                    'rgba(255, 255, 255, 0.9)'
+                ],
+                borderWidth: 3,
+                hoverOffset: 20
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: true,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    display: false   // we use custom legend below chart
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.92)',
+                    titleFont: { size: 14 },
+                    bodyFont: { size: 15 },
+                    padding: 12,
+                    cornerRadius: 8
                 }
+            },
+            animation: {
+                duration: 1400,
+                easing: 'easeOutQuart'
             }
         }
     });
-
 });
 </script>
+
+<style>
+    .avatar-circle {
+        box-shadow: 0 6px 16px rgba(99, 102, 241, 0.22);
+        transition: transform 0.3s ease;
+    }
+    .avatar-circle:hover {
+        transform: scale(1.08);
+    }
+    .legend-dot {
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+</style>
 
 {% endblock %}

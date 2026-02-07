@@ -1,37 +1,86 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Add Student</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<div class="card">
-<form method="post">
-    <input name="id" placeholder="Student ID">
-    <input name="name" placeholder="Name">
-    <input name="roll" placeholder="Roll No">
-    <input name="class" placeholder="Class">
-    <input name="section" placeholder="Section">
-    <button type="submit">Add Student</button>
-</form>
+        <div class="card-pro mb-4 fade-in">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4">Add New Student</h4>
+                
+                <form method="post" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Student ID</label>
+                        <input name="id" class="form-control" placeholder="e.g. S2025001" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name</label>
+                        <input name="name" class="form-control" placeholder="Enter full name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Roll No</label>
+                        <input name="roll" class="form-control" placeholder="e.g. 45" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Class</label>
+                        <input name="class" class="form-control" placeholder="e.g. 8" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Section</label>
+                        <input name="section" class="form-control" placeholder="e.g. A" required>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-gradient px-5 py-2">
+                            <i class="bi bi-person-plus me-2"></i> Add Student
+                        </button>
+                    </div>
+                </form>
 
-<p style="color:#69f0ae;">{{ message }}</p>
+                {% if message %}
+                    <div class="alert alert-success mt-4">{{ message }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-pro fade-in" style="animation-delay:0.2s;">
+            <div class="card-body p-4">
+                <h5 class="mb-3">Existing Students</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Roll</th>
+                                <th>Class</th>
+                                <th>Section</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in students %}
+                            <tr>
+                                <td>{{ s[0] }}</td>
+                                <td>{{ s[1] }}</td>
+                                <td>{{ s[2] }}</td>
+                                <td>{{ s[3] }}</td>
+                                <td>{{ s[4] }}</td>
+                                <td>
+                                    <a href="{{ url_for('delete_student', student_id=s[0]) }}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Delete this student?')">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-
-<h3>Existing Students</h3>
-
-<table class="table">
-<tr>
-    <th>ID</th><th>Name</th><th>Roll</th><th>Class</th><th>Section</th><th>Action</th>
-</tr>
-{% for s in students %}
-<tr>
-    <td>{{ s[0] }}</td>
-    <td>{{ s[1] }}</td>
-    <td>{{ s[2] }}</td>
-    <td>{{ s[3] }}</td>
-    <td>{{ s[4] }}</td>
-    <td><a href="{{ url_for('delete_student', student_id=s[0]) }}">❌ Delete</a></td>
-</tr>
-{% endfor %}
-</table>
 
 {% endblock %}
